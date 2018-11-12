@@ -33,6 +33,9 @@ public class CtrlGestionServicios implements Initializable {
 
 	@FXML
 	private JFXTextField txtEmail;
+	
+	@FXML
+	private JFXTextField txtPrioridad;
 
 	@FXML
 	private TableColumn<Servicio, String> clServicio;

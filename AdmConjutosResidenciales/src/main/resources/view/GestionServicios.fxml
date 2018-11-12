@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="595.0" prefWidth="1143.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uan.ctrlAdministrador.CtrlGestionServicios">
    <children>
-      <ImageView fitHeight="1000.0" fitWidth="1800.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="1000.0" fitWidth="1800.0" layoutX="8.0" opacity="0.5" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../img/conjuto.jpg" />
          </image>
@@ -55,7 +55,7 @@
             <Insets left="10.0" />
          </padding>
       </HBox>
-      <TableView fx:id="tvTabla" layoutX="40.0" layoutY="330.0" opacity="0.82" prefHeight="249.0" prefWidth="881.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="297.0" AnchorPane.topAnchor="330.0">
+      <TableView fx:id="tvTabla" layoutX="-154.0" layoutY="446.0" opacity="0.82" prefHeight="249.0" prefWidth="881.0" AnchorPane.bottomAnchor="-45.0" AnchorPane.leftAnchor="-154.0" AnchorPane.rightAnchor="491.0" AnchorPane.topAnchor="446.0">
          <columns>
             <TableColumn fx:id="clDocumento" prefWidth="109.0" text="Documento" />
             <TableColumn fx:id="clNombre" prefWidth="143.0" text="Nombre" />
@@ -105,6 +105,11 @@
                </GridPane.margin>
             </JFXComboBox>
             <JFXTextField fx:id="txtHorario" focusColor="WHITE" labelFloat="true" maxWidth="335.0" minWidth="212.0" prefHeight="37.0" prefWidth="250.0" promptText="Horario" style="-fx-prompt-text-fill: white; -fx-text-fill: white;" unFocusColor="#dcecff" GridPane.rowIndex="3">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txtPrioridad" focusColor="WHITE" labelFloat="true" promptText="Prioridad" unFocusColor="#dcecff" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font size="15.0" />
                </font>
