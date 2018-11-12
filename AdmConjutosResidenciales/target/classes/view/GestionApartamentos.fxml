@@ -31,7 +31,7 @@
             <Font size="15.0" />
          </font>
       </JFXTextField>
-      <JFXButton fx:id="btnModificar" disable="true" layoutX="977.0" layoutY="364.0" onAction="#modificar" prefHeight="54.0" prefWidth="142.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Modificar" textFill="WHITE">
+      <JFXButton fx:id="btnModificar" disable="true" layoutX="978.0" layoutY="396.0" onAction="#modificar" prefHeight="54.0" prefWidth="142.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Modificar" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -42,7 +42,7 @@
             <Insets />
          </opaqueInsets>
       </JFXButton>
-      <JFXButton fx:id="btnEliminar" disable="true" layoutX="979.0" layoutY="457.0" onAction="#eliminar" prefHeight="54.0" prefWidth="137.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Eliminar" textFill="WHITE">
+      <JFXButton fx:id="btnEliminar" disable="true" layoutX="980.0" layoutY="480.0" onAction="#eliminar" prefHeight="54.0" prefWidth="137.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Eliminar" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -50,7 +50,7 @@
             <FontAwesomeIcon fill="WHITE" iconName="TRASH" size="1.5em" />
          </graphic>
       </JFXButton>
-      <JFXButton fx:id="btnRegistrar" layoutX="977.0" layoutY="277.0" onAction="#registrar" prefHeight="54.0" prefWidth="142.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Registrar" textFill="WHITE">
+      <JFXButton fx:id="btnRegistrar" layoutX="978.0" layoutY="319.0" onAction="#registrar" prefHeight="54.0" prefWidth="142.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Registrar" textFill="WHITE">
          <font>
             <Font size="15.0" />
          </font>
@@ -124,5 +124,16 @@
           <TableColumn fx:id="clCosto" minWidth="0.0" prefWidth="200.0" text="Administracion + parqueadero" />
         </columns>
       </TableView>
+      <JFXButton fx:id="btnCargarXml" layoutX="978.0" layoutY="233.0" onAction="#cargar" prefHeight="54.0" prefWidth="142.0" style="-fx-background-color: #35698C; -fx-background-radius: 5;" text="Cargar XML" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font>
+         <graphic>
+            <FontAwesomeIcon fill="WHITE" iconName="FLOPPY_ALT" size="1.5em" />
+         </graphic>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </JFXButton>
    </children>
 </AnchorPane>

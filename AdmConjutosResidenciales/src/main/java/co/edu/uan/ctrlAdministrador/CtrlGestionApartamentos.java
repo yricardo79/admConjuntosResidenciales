@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
+
+import co.edu.uan.CargueAptoStrategy.provider.XmlProvider;
 import co.edu.uan.dao.TorreDAO;
 import co.edu.uan.dao.ZonaDAO;
 import co.edu.uan.torreBuilder.TorreBuilder;
@@ -23,7 +25,26 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import javafx.scene.control.Label;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+import java.util.Map;
 
 public class CtrlGestionApartamentos implements Initializable {
 
@@ -69,7 +90,8 @@ public class CtrlGestionApartamentos implements Initializable {
 
 	@FXML
 	private JFXButton btnRegistrar;
-
+	
+	
 	@FXML
 	private JFXButton btnBuscar;
 	@FXML
@@ -94,7 +116,9 @@ public class CtrlGestionApartamentos implements Initializable {
 	}
 
 	@FXML
+	
 	void registrar(ActionEvent event) {
+		
 		String tipo = null;
 		tipo = cbTipo.getValue();
 
@@ -131,6 +155,7 @@ public class CtrlGestionApartamentos implements Initializable {
 			TorreBuilder torreBuilder = new TorreBuilder();
 			int cuadruple = 0;
 			int apt = 100;
+			//int apt = Integer.parseInt(txtTorre.getText() +0+0);
 			for (int i = 0; i < Integer.parseInt(txtApartamento.getText()); i++) {
 
 				if (cuadruple == 4) {
@@ -240,7 +265,98 @@ public class CtrlGestionApartamentos implements Initializable {
 		clPuestos.setCellValueFactory(new PropertyValueFactory<TorreCom, String>("puestos"));
 		clCosto.setCellValueFactory(new PropertyValueFactory<TorreCom, String>("costo"));
 	}
+	@FXML
+	void cargar(ActionEvent event) {
+		//XmlProvider xml = new XmlProvider();
+		
+		//xml.CargarTorres(txtCostoAdmin.getText(),txtCostoParqueadero.getText());
+		
+		TorreDAO torreDAO = TorreDAO.getInstace();
+		ZonaDAO zonaDAO = new ZonaDAO();
+		String tipo = null;
+		try {
+			File fXmlFile = new File("target/TorreApto.xml");
+			
+	        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+	        Document doc = dBuilder.parse(fXmlFile);
+	        doc.getDocumentElement().normalize();
+	        
+	        
+	        NodeList nList = doc.getElementsByTagName("torre");
+	        
+	                
+	        
+	        for (int temp = 0; temp < nList.getLength(); temp++) {
+	        	ArrayList<String> numeroPuestosParq = new ArrayList<>();
+	        	Element torrec = (Element) nList.item(temp);
+	        	
+	        	
 
+	        	int cuadruple1 = 0;
+				int puestos = 100;
+				
+				for (int i = 0; i < Integer.parseInt(torrec.getElementsByTagName("npuestos").item(0).getTextContent()); i++) {
+					if (cuadruple1 == 4) {
+						cuadruple1 = 0;
+						puestos = puestos + 100 - 4;
+					}
+					cuadruple1++;
+					puestos++;
+					numeroPuestosParq.add(torrec.getElementsByTagName("numero").item(0).getTextContent() + "-" + puestos);
+
+				}
+
+				TorreBuilder torreBuilder = new TorreBuilder();
+				int cuadruple = 0;
+				int apt =100;
+				for (int i = 0; i < Integer.parseInt(torrec.getElementsByTagName("napto").item(0).getTextContent() ); i++) {
+
+					if (cuadruple == 4) {
+						cuadruple = 0;
+						apt = apt + 100 - 4;
+					}
+					cuadruple++;
+					apt++;
+					torreBuilder.addApartamentos(apt, torrec.getElementsByTagName("reside").item(0).getTextContent(), torrec.getElementsByTagName("parqueadero").item(0).getTextContent());
+				}	
+				
+				 if (torreDAO.verificarTorre(torrec.getElementsByTagName("numero").item(0).getTextContent())) {
+     				displayAlert(AlertType.INFORMATION, "TORRE EXISTENTE", "El numero de la torre ya existe");
+     			} else {
+        				txtCostoAdmin.setText(zonaDAO.traerDatosDeZonaAdmin(torrec.getElementsByTagName("idzona").item(0).getTextContent()));
+        				txtCostoParqueadero.setText(zonaDAO.traerDatosDeZonaParq(torrec.getElementsByTagName("idzona").item(0).getTextContent()));
+        				idZona = zonaDAO.traerDatosDeZonaId(torrec.getElementsByTagName("idzona").item(0).getTextContent());
+        						
+        						if (torreDAO.createTorre(torreBuilder.setNumero(Integer.parseInt(torrec.getElementsByTagName("numero").item(0).getTextContent()))
+        												.setZona(idZona, torrec.getElementsByTagName("idzona").item(0).getTextContent(), Float.parseFloat(txtCostoAdmin.getText()),
+        												numeroPuestosParq, Float.parseFloat(txtCostoParqueadero.getText()))
+        												.build())) {
+        							displayAlert(AlertType.INFORMATION, "TORRE CREADA", "Torre guardada con exito");
+
+        							float suma = Float.parseFloat(txtCostoAdmin.getText())
+        									+ Float.parseFloat(txtCostoParqueadero.getText());
+        							//agrega a la tabla
+        							listaTorre.add(new TorreCom(torrec.getElementsByTagName("numero").item(0).getTextContent(), torrec.getElementsByTagName("napto").item(0).getTextContent(), torrec.getElementsByTagName("idzona").item(0).getTextContent(),
+        									torrec.getElementsByTagName("npuestos").item(0).getTextContent(), Float.toString(suma)));
+        							//limpia los campos
+        							limpiarCampos();
+        						} else {
+        							displayAlert(AlertType.ERROR, "ERROR", "ERROR al guardar la torre");
+        						}	                    
+                    
+                  
+                }
+	        }
+            
+
+        }
+		catch (Exception e) {
+            e.printStackTrace();
+
+        }
+
+	}
 	@FXML
 	void refresacar(ActionEvent event) {
 		iniciarlizarLista();

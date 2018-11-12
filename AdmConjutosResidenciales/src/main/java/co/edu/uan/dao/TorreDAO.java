@@ -33,8 +33,10 @@ public class TorreDAO {
 	PreparedStatement ps = null;
 	PreparedStatement ps2 = null;
 	PreparedStatement ps3 = null;
+	PreparedStatement ps4 = null;
 	
 	String sql = "INSERT INTO torre(numero, naptos, npuestos, idzona) VALUES (?,?,?,?)";
+	
 	String sql2 = "INSERT INTO torreapart(ntorre, napartamento, reside, parqueadero, documento) VALUES (?,?,?,?,?)";
 	String sql3 = "INSERT INTO parqueadero(numero) VALUES (?)";
 	try { 
@@ -44,14 +46,15 @@ public class TorreDAO {
         ps.setInt(3, torre.getZona().getParqueadero().getNumeros().size());
         ps.setInt(4, Integer.parseInt(torre.getZona().getIdzona()));
         ps.execute();
+    
         //datos de apartamento
-        ps2 = connection.prepareStatement(sql2);
+        ps2 = connection.prepareStatement(sql2);        
         for(int i=0; i<torre.getApartamentos().size(); i++) {
         	 ps2.setInt(1, torre.getNumero());            
              ps2.setInt(2, torre.getApartamentos().get(i).getNumero());
              ps2.setString(3, torre.getApartamentos().get(i).getReside());
              ps2.setString(4, torre.getApartamentos().get(i).getParqueadero());
-             ps2.setString(5, null);
+             ps2.setString(5, null);             
              ps2.execute();
         } 
         ps3 = connection.prepareStatement(sql3);

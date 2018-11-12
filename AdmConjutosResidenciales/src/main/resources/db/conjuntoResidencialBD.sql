@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+﻿-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sistema_conjuntos_residenciales
 -- ------------------------------------------------------
@@ -189,7 +189,10 @@ CREATE TABLE `persona` (
 
 LOCK TABLES `persona` WRITE;
 /*!40000 ALTER TABLE `persona` DISABLE KEYS */;
-INSERT INTO `persona` VALUES ('1014265845','william torres','3125830084','1985-04-16','lrodriguez52@uan.edu.co',NULL),('1014293634','Leidy Yohana Rodriguez Fuentes','3227525187','16/11/1997','lrodriguez52@uan.edu.co',1),('1023883679','Yeimmy Ricardo','3124568907','1991-07-23','yricardo79@uan.edu.co',4),('1031152621','Lizeth Farfán','3017489662','1993-03-09','lfarfan21@uan.edu.co',5),('1234567890','david rojas','3148924321','1984-03-14','lrodriguez52@uan.edu.co',6),('2345678901','Carlos Gonzales','1234567','1982-06-16','lrodriguez52@uan.edu.co',NULL),('4576321897','esteban herrera','3007210339','1966-06-15','lrodriguez52@uan.edu.co',7),('46356895','sara fuentes','3125256290','1993-10-15','lrodriguez52@uan.edu.co',NULL),('79289201','william rodriguez','3124217525','1967-10-27','lrodriguez52@uan.edu.co',3);
+INSERT INTO `persona` VALUES ('1014265845','william torres','3125830084','1985-04-16',
+'lrodriguez52@uan.edu.co',NULL),('1023883679','Yeimmy Luzena Ricardo','3227525187','16/11/1997',
+'yricardo79@uan.edu.co',1),
+('1031152621','Lizeth Farfán','3017489662','1993-03-09','lfarfan21@uan.edu.co',5),('1234567890','david rojas','3148924321','1984-03-14','lrodriguez52@uan.edu.co',6),('2345678901','Carlos Gonzales','1234567','1982-06-16','lrodriguez52@uan.edu.co',NULL),('4576321897','esteban herrera','3007210339','1966-06-15','lrodriguez52@uan.edu.co',7),('46356895','sara fuentes','3125256290','1993-10-15','lrodriguez52@uan.edu.co',NULL),('79289201','william rodriguez','3124217525','1967-10-27','lrodriguez52@uan.edu.co',3);
 /*!40000 ALTER TABLE `persona` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -297,7 +300,7 @@ CREATE TABLE `sesion` (
 
 LOCK TABLES `sesion` WRITE;
 /*!40000 ALTER TABLE `sesion` DISABLE KEYS */;
-INSERT INTO `sesion` VALUES (1,'WXwb56uGr3lE0yNf9WpHaw==','1014293634',1),(3,'fuDfzkFykV0=','79289201',2),(4,'uiQGcR0rOcw=','1023883679',2),(5,'cF4My5L2dEs=','1031152621',2),(6,'Favevg/NoCU=','1234567890',2),(7,'IzkDAH52QVc=','4576321897',2);
+INSERT INTO `sesion` VALUES (1,'WXwb56uGr3lE0yNf9WpHaw==','1023883679',1),(3,'fuDfzkFykV0=','79289201',2),(4,'uiQGcR0rOcw=','1023883679',2),(5,'cF4My5L2dEs=','1031152621',2),(6,'Favevg/NoCU=','1234567890',2),(7,'IzkDAH52QVc=','4576321897',2);
 /*!40000 ALTER TABLE `sesion` ENABLE KEYS */;
 UNLOCK TABLES;
 
