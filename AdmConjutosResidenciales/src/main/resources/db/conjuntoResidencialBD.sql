@@ -248,6 +248,18 @@ INSERT INTO `recibo` VALUES ('150042','1234567890','david rojas','5','101','pare
 /*!40000 ALTER TABLE `recibo` ENABLE KEYS */;
 UNLOCK TABLES;
 
+drop table if exists `tarea`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+create table `tarea`(
+`id` int(3) NOT NULL AUTO_INCREMENT,
+`nombretarea` varchar(50) NOT NULL,
+PRIMARY KEY (`id`),
+  KEY `id_tarea` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
 --
 -- Table structure for table `servicio`
 --
@@ -260,9 +272,11 @@ CREATE TABLE `servicio` (
   `nombreserv` varchar(20) NOT NULL,
   `horario` varchar(15) NOT NULL,
   `documento` varchar(15) NOT NULL,
+  `id_tarea`  int not null,
   PRIMARY KEY (`id`),
   KEY `documento` (`documento`),
-  CONSTRAINT `servicio_ibfk_1` FOREIGN KEY (`documento`) REFERENCES `persona` (`documento`)
+  CONSTRAINT `servicio_ibfk_1` FOREIGN KEY (`documento`) REFERENCES `persona` (`documento`),
+  CONSTRAINT `servicio_ibfk_2` FOREIGN KEY (`id`) REFERENCES `tarea` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -270,9 +284,19 @@ CREATE TABLE `servicio` (
 -- Dumping data for table `servicio`
 --
 
+
+
+
+LOCK TABLES `tarea` WRITE;
+/*!40000 ALTER TABLE `tarea` DISABLE KEYS */;
+INSERT INTO `tarea` VALUES (1,'barrear zonas comunes'),(2,'vigilar el parqueader')
+,(3,'lavar los baños'), (4,'mantenimiento ascensor');
+/*!40000 ALTER TABLE `tarea` ENABLE KEYS */;
+UNLOCK TABLES;
+
 LOCK TABLES `servicio` WRITE;
 /*!40000 ALTER TABLE `servicio` DISABLE KEYS */;
-INSERT INTO `servicio` VALUES (1,'mantenimiento','7:00am-12:00pm','46356895'),(2,'vigilancia','4:00am-12:00pm','1014265845'),(3,'aseo','2:00pm-5:00pm','2345678901');
+INSERT INTO `servicio` VALUES (1,'mantenimiento','7:00am-12:00pm','46356895',1),(2,'vigilancia','4:00am-12:00pm','1014265845',2),(3,'aseo','2:00pm-5:00pm','2345678901',1);
 /*!40000 ALTER TABLE `servicio` ENABLE KEYS */;
 UNLOCK TABLES;
 
