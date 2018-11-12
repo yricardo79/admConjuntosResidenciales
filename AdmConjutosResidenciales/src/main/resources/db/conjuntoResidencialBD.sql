@@ -1,4 +1,4 @@
-﻿-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: sistema_conjuntos_residenciales
 -- ------------------------------------------------------
@@ -34,7 +34,7 @@ CREATE TABLE `apartamento` (
 
 LOCK TABLES `apartamento` WRITE;
 /*!40000 ALTER TABLE `apartamento` DISABLE KEYS */;
-INSERT INTO `apartamento` VALUES (101),(102),(103),(104),(201),(202),(203),(204),(301),(302),(303),(304),(401),(402),(403),(404),(501),(502),(503),(504),(601),(602),(603),(604);
+INSERT INTO `apartamento` VALUES (101),(102),(103),(104),(201),(202),(203),(204),(301),(302),(303),(304),(401),(402),(403),(404),(501),(502),(503),(504);
 /*!40000 ALTER TABLE `apartamento` ENABLE KEYS */;
 UNLOCK TABLES;
 

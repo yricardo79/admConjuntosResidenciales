@@ -9,7 +9,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 
-import co.edu.uan.CargueAptoStrategy.provider.XmlProvider;
+
 import co.edu.uan.dao.TorreDAO;
 import co.edu.uan.dao.ZonaDAO;
 import co.edu.uan.torreBuilder.TorreBuilder;
