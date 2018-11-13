@@ -8,6 +8,8 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 
 import co.edu.uan.dao.ServicioDAO;
+import co.edu.uan.dao.TareaDAO;
+import co.edu.uan.dao.TorreDAO;
 import co.edu.uan.entidad.Servicio;
 import co.edu.uan.envioCorreoProxy.Correo;
 import co.edu.uan.envioCorreoProxy.ProxyEnvioCorreo;
@@ -126,6 +128,12 @@ public class CtrlGestionServicios implements Initializable {
 				Servicio servicio = new Servicio(txtDocumento.getText(), txtNombre.getText(), txtTelefono.getText(),
 						calenFechaNac.getValue().toString(), txtEmail.getText(), cbServicio.getValue(),
 						txtHorario.getText());
+				//asignacion de tarea
+				
+				ObservableList<String> listatarea = FXCollections.observableArrayList();
+				TareaDAO.getInstance().ObtenerTareas(listatarea, cbServicio.getValue());
+				
+				
 				Correo proxyEnvio = new ProxyEnvioCorreo();
 				if (proxyEnvio.enviarCorreoPServicio(servicio)) {
 					if (ServicioDAO.getInstance().createPServicio(servicio)) {
