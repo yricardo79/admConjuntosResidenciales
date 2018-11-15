@@ -187,7 +187,7 @@ public class CtrlRegistroProp implements Initializable {
 						"El propietario con el documento " + txtDocumento.getText() + " ya existe");
 			} else {
 				Correo proxyEnvio = new ProxyEnvioCorreo();
-				if (proxyEnvio.enviarCorreoResidente(propietario)) {
+				proxyEnvio.enviarCorreoResidente(propietario);
 
 					if (propDAO.createPropietario(propietario)) {
 
@@ -200,7 +200,7 @@ public class CtrlRegistroProp implements Initializable {
 					} else {
 						displayAlert(AlertType.ERROR, "Error guardar Propietario", "Error al guardar el Propietario");
 					}
-				}
+				
 			}
 		}
 	}

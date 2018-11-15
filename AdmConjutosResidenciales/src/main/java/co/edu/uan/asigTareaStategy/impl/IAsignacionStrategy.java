@@ -1,7 +1,11 @@
 package co.edu.uan.asigTareaStategy.impl;
 
+import java.util.ArrayList;
+
 import co.edu.uan.entidad.Tarea;
+import groovyjarjarantlr.collections.List;
 
 public interface IAsignacionStrategy {
-   public Tarea asignartarea();
+   public int asignartarea(ArrayList  listatarea);
+   
 }

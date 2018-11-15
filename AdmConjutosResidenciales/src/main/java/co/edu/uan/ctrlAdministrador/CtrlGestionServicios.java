@@ -1,6 +1,12 @@
+/**
+*
+*Clase CtrlGestionServicios
+*
+*/
 package co.edu.uan.ctrlAdministrador;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import com.jfoenix.controls.JFXButton;
@@ -9,20 +15,20 @@ import com.jfoenix.controls.JFXTextField;
 
 import co.edu.uan.dao.ServicioDAO;
 import co.edu.uan.dao.TareaDAO;
-import co.edu.uan.dao.TorreDAO;
 import co.edu.uan.entidad.Servicio;
 import co.edu.uan.envioCorreoProxy.Correo;
 import co.edu.uan.envioCorreoProxy.ProxyEnvioCorreo;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class CtrlGestionServicios implements Initializable {
@@ -35,7 +41,7 @@ public class CtrlGestionServicios implements Initializable {
 
 	@FXML
 	private JFXTextField txtEmail;
-	
+
 	@FXML
 	private JFXTextField txtPrioridad;
 
@@ -47,6 +53,9 @@ public class CtrlGestionServicios implements Initializable {
 
 	@FXML
 	private TableColumn<Servicio, String> clHorario;
+
+	@FXML
+	private TableColumn<Servicio, String> clPrioridad;
 
 	@FXML
 	private JFXTextField txtDocumento;
@@ -98,27 +107,47 @@ public class CtrlGestionServicios implements Initializable {
 
 	private ObservableList<Servicio> listaServ;
 
+	private int posicionServEnTabla = -1;
+
+	private Servicio ser;
+
 	@FXML
 	void buscar(ActionEvent event) {
-		if(txtNdocumento.getText().isEmpty()) {
+		if (txtNdocumento.getText().isEmpty()) {
 			displayAlert(AlertType.WARNING, "CAMPO VACIO", "Debe tener el campo de busqueda lleno");
-		}else {
+		} else {
 			listaServ = FXCollections.observableArrayList();
-			ServicioDAO.getInstance().buscarPServicio(listaServ, txtNdocumento.getText());
+			Servicio servicio = ServicioDAO.getInstance().buscarPServicio(listaServ, txtNdocumento.getText());
+			txtDocumento.setText(servicio.getDocumento());
+			txtNombre.setText(servicio.getNombre());
+			txtTelefono.setText(servicio.getTelefono());
+			// calenFechaNac.setTex .setText(servicio.getDocumento());//fecha nacimiento
+			txtEmail.setText(servicio.getCorreo());
+			// txtDocumento.setText(servicio.getDocumento());//servicio
+			txtHorario.setText(servicio.getHorario());
+			txtPrioridad.setText(servicio.getPrioridad());
+
 			tvTabla.setItems(listaServ);
-			if(tvTabla.getItems().isEmpty()) {
+			if (tvTabla.getItems().isEmpty()) {
 				displayAlert(AlertType.WARNING, "NO ENCONTRADO", "El personal de servicio con esa cedula no existe");
 			}
-			txtNdocumento.setText("");	
+			txtNdocumento.setText("");
+
+			habilitarBotones();
 		}
+	}
+
+	public void habilitarBotones() {
+		// modificar();
+
 	}
 
 	@FXML
 	void registrar(ActionEvent event) {
 
 		if (txtDocumento.getText().isEmpty() || txtNombre.getText().isEmpty() || txtEmail.getText().isEmpty()
-				|| txtTelefono.getText().isEmpty() || txtHorario.getText().isEmpty() || cbServicio.getValue() == null
-				|| calenFechaNac.getValue() == null) {
+				|| txtTelefono.getText().isEmpty() || txtHorario.getText().isEmpty() || txtPrioridad.getText().isEmpty()
+				|| cbServicio.getValue() == null || calenFechaNac.getValue() == null) {
 			displayAlert(AlertType.WARNING, "CAMPOS VACIOS", "Debe tener los campos de registro llenos");
 		} else {
 			if (ServicioDAO.getInstance().verificarPServicio(txtDocumento.getText())) {
@@ -127,24 +156,24 @@ public class CtrlGestionServicios implements Initializable {
 			} else {
 				Servicio servicio = new Servicio(txtDocumento.getText(), txtNombre.getText(), txtTelefono.getText(),
 						calenFechaNac.getValue().toString(), txtEmail.getText(), cbServicio.getValue(),
-						txtHorario.getText());
-				//asignacion de tarea
-				
+						txtHorario.getText(), txtPrioridad.getText());
+				// asignacion de tarea
+
 				ObservableList<String> listatarea = FXCollections.observableArrayList();
 				TareaDAO.getInstance().ObtenerTareas(listatarea, cbServicio.getValue());
-				
-				
-				Correo proxyEnvio = new ProxyEnvioCorreo();
-				if (proxyEnvio.enviarCorreoPServicio(servicio)) {
-					if (ServicioDAO.getInstance().createPServicio(servicio)) {
 
-						displayAlert(AlertType.INFORMATION, "Registro exitoso",
-								"Registro del personal de servicio fue exitoso, el cargo y el horario se acaba de enviar al correo electronico del personal");
-						listaServ.add(servicio);
-						limpiarcampos();
-					} else {
-						displayAlert(AlertType.ERROR, "Error guardar personal de servicio", "Error al guardar el persona de servicio");
-					}
+				Correo proxyEnvio = new ProxyEnvioCorreo();
+				proxyEnvio.enviarCorreoPServicio(servicio);
+
+				if (ServicioDAO.getInstance().createPServicio(servicio)) {
+
+					displayAlert(AlertType.INFORMATION, "Registro exitoso",
+							"Registro del personal de servicio fue exitoso, el cargo y el horario se acaba de enviar al correo electronico del personal");
+					listaServ.add(servicio);
+					limpiarcampos();
+				} else {
+					displayAlert(AlertType.ERROR, "Error guardar personal de servicio",
+							"Error al guardar el persona de servicio");
 				}
 			}
 		}
@@ -159,6 +188,7 @@ public class CtrlGestionServicios implements Initializable {
 		txtTelefono.setText("");
 		cbServicio.setValue(null);
 		txtHorario.setText("");
+		txtPrioridad.setText("");
 	}
 
 	@FXML
@@ -195,8 +225,10 @@ public class CtrlGestionServicios implements Initializable {
 	public void inicializarTabla() {
 		listaServ = FXCollections.observableArrayList();
 		ServicioDAO.getInstance().traerDatosTabla(listaServ);
-		
+
 		tvTabla.setItems(listaServ);
+
+		final ObservableList<Servicio> tablaServ = tvTabla.getSelectionModel().getSelectedItems();
 
 		clDocumento.setCellValueFactory(new PropertyValueFactory<Servicio, String>("documento"));
 		clNombre.setCellValueFactory(new PropertyValueFactory<Servicio, String>("nombre"));
@@ -205,7 +237,8 @@ public class CtrlGestionServicios implements Initializable {
 		clCorreo.setCellValueFactory(new PropertyValueFactory<Servicio, String>("correo"));
 		clServicio.setCellValueFactory(new PropertyValueFactory<Servicio, String>("servicio"));
 		clHorario.setCellValueFactory(new PropertyValueFactory<Servicio, String>("horario"));
-		
+
+		clPrioridad.setCellValueFactory(new PropertyValueFactory<Servicio, String>("prioridad"));
 
 	}
 
@@ -220,6 +253,35 @@ public class CtrlGestionServicios implements Initializable {
 		alert.setTitle(title);
 		alert.setContentText(message);
 		alert.showAndWait();
+	}
+
+	private final ListChangeListener<Servicio> selectorTablaPersonas = new ListChangeListener<Servicio>() {
+		@Override
+		public void onChanged(ListChangeListener.Change<? extends Servicio> c) {
+			ponerPersonaSeleccionada();
+		}
+	};
+
+	public void ponerPersonaSeleccionada() {
+		final Servicio servi = getTablaPersonasSeleccionada();
+		posicionServEnTabla = listaServ.indexOf(servi);
+		if (servi != null) {
+			this.ser = servi;
+			txtDocumento.setText(servi.getDocumento());
+//			bloquearEntrada();
+//			mostrarSalida();
+		}
+	}
+
+	public Servicio getTablaPersonasSeleccionada() {
+		if (tvTabla != null) {
+			List<Servicio> tabla = tvTabla.getSelectionModel().getSelectedItems();
+			if (tabla.size() == 1) {
+				final Servicio personaSeleccionada = tabla.get(0);
+				return personaSeleccionada;
+			}
+		}
+		return null;
 	}
 
 }

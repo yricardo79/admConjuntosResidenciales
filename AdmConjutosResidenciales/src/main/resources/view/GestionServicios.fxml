@@ -1,3 +1,8 @@
+/**
+*Vista FXML GestionServicios
+*
+*
+*/
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.*?>
@@ -64,6 +69,7 @@
             <TableColumn fx:id="clCorreo" prefWidth="120.0" text="Correo" />
             <TableColumn fx:id="clServicio" prefWidth="110.0" text="Servicio" />
             <TableColumn fx:id="clHorario" prefWidth="124.0" text="Horario" />
+			<TableColumn fx:id="clPrioridad" prefWidth="124.0" text="Prioridad" />
          </columns>
       </TableView>
       <GridPane layoutX="545.0" layoutY="60.0" prefHeight="242.0" prefWidth="562.0" AnchorPane.rightAnchor="100.0">
